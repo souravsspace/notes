@@ -17,7 +17,7 @@ export default function NavBar() {
 
    return (
       <nav className="pt-5 sticky top-0 backdrop-blur-md z-50">
-         <div className="container flex justify-between items-center">
+         <div className="container flex justify-between items-center gap-3 flex-col-reverse md:flex-row">
             <section className="flex gap-x-6 items-center">
                <Link
                   className="text-zinc-500 hover:text-zinc-800 transition-all text-2xl"
@@ -35,7 +35,7 @@ export default function NavBar() {
                   </Link>
                ))}
             </section>
-            <section className="flex gap-x-1 items-center">
+            <section className="flex gap-2 items-center">
                <NavbarButton />
             </section>
          </div>
