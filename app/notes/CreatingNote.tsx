@@ -140,7 +140,7 @@ export default function CreatingNote() {
                      )
                   )}
                </CardContent>
-               <CardFooter className="flex justify-end">
+               <CardFooter className="flex justify-end gap-2">
                   <Button
                      type="button"
                      variant="secondary"
