@@ -1,0 +1,24 @@
+{
+   "sqltools.connections": [
+      {
+         "previewLimit": 50,
+         "server": "localhost",
+         "port": 5432,
+         "askForPassword": true,
+         "driver": "PostgreSQL",
+         "name": "Sourav",
+         "username": "sourav",
+         "database": "notes"
+      },
+      {
+         "previewLimit": 50,
+         "server": "localhost",
+         "port": 5432,
+         "askForPassword": true,
+         "driver": "PostgreSQL",
+         "name": "sourav",
+         "database": "notes",
+         "username": "sourav"
+      }
+   ]
+}
