@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer"
 import NavBar from "@/components/NavBar"
+import { ThemeProvider } from "@/components/theme-provider"
 import Provider from "@/lib/Provider"
 import "@/style/tailwind.css"
 import type { Metadata } from "next"
@@ -21,11 +22,18 @@ export default function RootLayout({
       <html lang="en">
          <body className={inter.className}>
             <Provider>
-               <NavBar />
-               <main className="mx-auto px-3 md:px-8 py-2 md:py-6">
-                  {children}
-               </main>
-               <Footer />
+               <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                  disableTransitionOnChange
+               >
+                  <NavBar />
+                  <main className="mx-auto px-3 md:px-8 py-2 md:py-6">
+                     {children}
+                  </main>
+                  <Footer />
+               </ThemeProvider>
             </Provider>
          </body>
       </html>

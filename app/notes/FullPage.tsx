@@ -49,7 +49,10 @@ export default function FullPage() {
                </CardDescription>
             </CardHeader>
             <CardContent>
-               <AllNotesOfUser userNote={userNote} setRender={setRender} />
+               <AllNotesOfUser
+                  userNote={userNote}
+                  setRender={setRender}
+               />
             </CardContent>
          </Card>
          <div>
