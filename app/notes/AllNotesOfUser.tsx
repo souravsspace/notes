@@ -25,37 +25,6 @@ export default function AllNotesOfUser({ userNote, setRender }: Props) {
 
    const session = useSession()
 
-   // const [userNote, setUserNote] = useState<NOTE_TYPE[]>([])
-
-   // useEffect(() => {
-   //    axios
-   //       .get("/api/users_notes")
-   //       .then((res) => {
-   //          const notes: NOTE_TYPE[] = res.data
-   //          const user_note = notes.filter((note) => note.userId === userId)
-   //          setUserNote(user_note)
-   //       })
-   //       .finally(() => {
-   //          setLoading(false)
-   //       })
-   //       .catch((err) => {
-   //          console.log(err)
-   //       })
-   // }, [userId])
-
-   // const fetchNotes = useCallback(async () => {
-   //    const data = await fetch("/api/users_notes", {
-   //       cache: "no-cache",
-   //    })
-   //    const notes: NOTE_TYPE[] = await data.json()
-   //    const user_note = notes.filter((note) => note.userId === userId)
-   //    setUserNote(user_note)
-   // }, [userId])
-
-   // useEffect(() => {
-   //    fetchNotes()
-   // }, [fetchNotes])
-
    const router = useRouter()
    if (session.status === "unauthenticated") {
       router.push("/")
