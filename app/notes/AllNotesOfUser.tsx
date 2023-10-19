@@ -17,9 +17,14 @@ import { useState } from "react"
 type Props = {
    userNote: NOTE_TYPE[]
    setRender: React.Dispatch<React.SetStateAction<boolean>>
+   fetchingDataLoading: boolean
 }
 
-export default function AllNotesOfUser({ userNote, setRender }: Props) {
+export default function AllNotesOfUser({
+   userNote,
+   setRender,
+   fetchingDataLoading,
+}: Props) {
    const [loading, setLoading] = useState(false)
    const [success, setSuccess] = useState(false)
 
@@ -59,22 +64,28 @@ export default function AllNotesOfUser({ userNote, setRender }: Props) {
                </AlertDescription>
             </Alert>
          )}
-         {userNote.map((note) => (
-            <Card key={note.id}>
-               <CardHeader className="flex justify-between items-center flex-row">
-                  <h2 className="text-xl font-semibold">{note.title}</h2>
-                  <button
-                     onClick={() => deleteNote(note.id)}
-                     disabled={loading}
-                  >
-                     <Trash2 className="w-5 h-5 hover:text-primary cursor-pointer" />
-                  </button>
-               </CardHeader>
-               <CardContent>
-                  <CardDescription>{note.description}</CardDescription>
-               </CardContent>
-            </Card>
-         ))}
+         {fetchingDataLoading ? (
+            <Loading />
+         ) : (
+            <>
+               {userNote.map((note) => (
+                  <Card key={note.id}>
+                     <CardHeader className="flex justify-between items-center flex-row">
+                        <h2 className="text-xl font-semibold">{note.title}</h2>
+                        <button
+                           onClick={() => deleteNote(note.id)}
+                           disabled={loading}
+                        >
+                           <Trash2 className="w-5 h-5 hover:text-primary cursor-pointer" />
+                        </button>
+                     </CardHeader>
+                     <CardContent>
+                        <CardDescription>{note.description}</CardDescription>
+                     </CardContent>
+                  </Card>
+               ))}
+            </>
+         )}
       </main>
    )
 }

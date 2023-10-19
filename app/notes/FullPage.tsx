@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card"
 import AllNotesOfUser from "./AllNotesOfUser"
 import CreatingNote from "./CreatingNote"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import axios from "axios"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
@@ -23,17 +23,41 @@ export default function FullPage() {
    const session = useSession()
    const userId = session.data?.user?.id as string
 
+   const [fetchingDataLoading, setFetchingDataLoading] = useState(false)
+
+   const fetchingData = useCallback(async () => {
+      try {
+         setFetchingDataLoading(true)
+         await axios
+            .get(`/api/notes?userId=${userId}`)
+            .then((res) => {
+               const notes: NOTE_TYPE[] = res.data
+               setUserNote(notes)
+               setFetchingDataLoading(false)
+            })
+            .catch((err) => {
+               setFetchingDataLoading(false)
+               console.log("The error while getting the notes is: ", err)
+            })
+      } catch (error) {
+         setFetchingDataLoading(false)
+         console.log("error - " + error)
+      }
+      setFetchingDataLoading(false)
+   }, [userId])
+
    useEffect(() => {
-      axios
-         .get(`/api/notes?userId=${userId}`)
-         .then((res) => {
-            const notes: NOTE_TYPE[] = res.data
-            setUserNote(notes)
-         })
-         .catch((err) => {
-            console.log("The error while getting the notes is: ", err)
-         })
-   }, [userId, render])
+      // axios
+      //    .get(`/api/notes?userId=${userId}`)
+      //    .then((res) => {
+      //       const notes: NOTE_TYPE[] = res.data
+      //       setUserNote(notes)
+      //    })
+      //    .catch((err) => {
+      //       console.log("The error while getting the notes is: ", err)
+      //    })
+      fetchingData()
+   }, [userId, render, fetchingData])
 
    if (session.status === "authenticated") {
       router.replace(`/notes?userId=${userId}`)
@@ -52,6 +76,7 @@ export default function FullPage() {
                <AllNotesOfUser
                   userNote={userNote}
                   setRender={setRender}
+                  fetchingDataLoading={fetchingDataLoading}
                />
             </CardContent>
          </Card>
