@@ -32,7 +32,11 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 
-export default function CreatingNote() {
+type Props = {
+   setRender: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function CreatingNote({ setRender }: Props) {
    const router = useRouter()
 
    const [error, setError] = useState("")
@@ -59,6 +63,7 @@ export default function CreatingNote() {
          setLoading(true)
          await axios.post("api/create_note", user_data)
          setSuccess(true)
+         setRender((prev) => !prev)
       } catch (error) {
          setLoading(false)
          setError("Something went wrong, please try again later!")

@@ -12,28 +12,49 @@ import axios from "axios"
 import { Terminal, Trash2 } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useCallback, useEffect, useState } from "react"
+import { useState } from "react"
 
-export default function AllNotesOfUser() {
-   const [userNote, setUserNote] = useState<NOTE_TYPE[]>([])
+type Props = {
+   userNote: NOTE_TYPE[]
+   setRender: React.Dispatch<React.SetStateAction<boolean>>
+}
 
+export default function AllNotesOfUser({ userNote, setRender }: Props) {
    const [loading, setLoading] = useState(false)
    const [success, setSuccess] = useState(false)
 
    const session = useSession()
-   const userId = session.data?.user?.id as string
 
-   const fetchNotes = useCallback(async () => {
-      await axios.get("/api/users_notes").then((res) => {
-         const notes: NOTE_TYPE[] = res.data
-         const user_note = notes.filter((note) => note.userId === userId)
-         setUserNote(user_note)
-      })
-   }, [setUserNote, userId])
+   // const [userNote, setUserNote] = useState<NOTE_TYPE[]>([])
 
-   useEffect(() => {
-      fetchNotes()
-   }, [fetchNotes, userNote])
+   // useEffect(() => {
+   //    axios
+   //       .get("/api/users_notes")
+   //       .then((res) => {
+   //          const notes: NOTE_TYPE[] = res.data
+   //          const user_note = notes.filter((note) => note.userId === userId)
+   //          setUserNote(user_note)
+   //       })
+   //       .finally(() => {
+   //          setLoading(false)
+   //       })
+   //       .catch((err) => {
+   //          console.log(err)
+   //       })
+   // }, [userId])
+
+   // const fetchNotes = useCallback(async () => {
+   //    const data = await fetch("/api/users_notes", {
+   //       cache: "no-cache",
+   //    })
+   //    const notes: NOTE_TYPE[] = await data.json()
+   //    const user_note = notes.filter((note) => note.userId === userId)
+   //    setUserNote(user_note)
+   // }, [userId])
+
+   // useEffect(() => {
+   //    fetchNotes()
+   // }, [fetchNotes])
 
    const router = useRouter()
    if (session.status === "unauthenticated") {
@@ -50,8 +71,9 @@ export default function AllNotesOfUser() {
          setLoading(true)
          await axios.delete("api/delete_note", { data: { id: id } })
          setSuccess(true)
+         setRender((prev) => !prev)
       } catch (error) {
-         console.log(error)
+         console.log("error - " + error)
       }
       setTimeout(() => {
          setSuccess(false)

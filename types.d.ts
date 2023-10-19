@@ -15,5 +15,5 @@ type NOTE_TYPE = {
    createdAt: Date
    updatedAt: Date
    user?: USER_TYPE
-   userId?: string
+   userId?: string | null
 }
